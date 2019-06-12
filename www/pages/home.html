@@ -1,0 +1,130 @@
+<template>
+  <div class="page" data-name="home">
+    <div class="navbar no-shadow">
+      <div class="navbar-inner sliding">
+        <div class="title">Test Auth</div>
+      </div>
+    </div>
+    <div class="page-content">
+      <!--
+      <div class="list no-hairlines-md">
+        <ul>
+          <li class="item-content item-input item-input-with-info">
+            <div class="item-inner">
+              <div class="item-title item-label">Correo</div>
+              <div class="item-input-wrap">
+                <input type="email" placeholder="Tu correo" required validate>
+                <span class="input-clear-button"></span>
+              </div>
+            </div>
+          </li>
+          <li class="item-content item-input item-input-with-info">
+            <div class="item-inner">
+              <div class="item-title item-label">Contraseña</div>
+              <div class="item-input-wrap">
+                <input type="password" placeholder="Tu contraseña" required validate>
+                <span class="input-clear-button"></span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="block">
+        <button class="col button button-fill button-round color-green " @click="authemail">Iniciar Sesion</button>
+      </div>-->
+      <div class="block-title block-title-medium text-align-center" style="margin-top:50%;">Iniciar sesion con</div>
+      <div class="block">
+        <p class="row">
+          <a class="col button button-raised button-round color-orange authgoogle">
+            <i class="icon f7-icons">logo_google</i>
+            Google</a>
+          <a class="col button button-raised button-round color-blue authfacebook">
+            <i class="icon f7-icons">logo_facebook</i>
+            Facebook</a>
+        </p>
+      </div>
+      <!--
+<div class="block">
+  <p class="row">
+    <a class="col button button-raised button-round color-orange authclose">
+      <i class="icon f7-icons">close</i>
+      cerrar sesion</a>
+      </p>
+</div>-->
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    methods: {
+      authemail: function() {
+        console.log("authemail");
+      },
+
+    },
+    data: function() {
+      return {
+
+      }
+    },
+    on: {
+      pageInit: function() {
+
+        $$('.authgoogle').on('click', function() {
+          console.log("authgoogle");
+          var provider = new firebase.auth.GoogleAuthProvider();
+          firebase.auth().signInWithPopup(provider).then(function(result) {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            var token = result.credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            console.log(user.email);
+            // ...
+          }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            console.log(errorMessage);
+            // ...
+          });
+        })
+        $$('.authfacebook').on('click', function() {
+          console.log("authfacebook");
+          var provider = new firebase.auth.FacebookAuthProvider();
+
+          firebase.auth().signInWithPopup(provider).then(function(result) {
+            // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+            var token = result.credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            app.dialog.alert(user.email);
+            app.dialog.alert(user.photoURL);
+            // ...
+          }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            console.log(errorMessage);
+            // ...
+          });
+        })
+        $$('.authclose').on('click', function() {
+          firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            console.log("Sesion Cerrada");
+          }).catch(function(error) {
+            // An error happened.
+          });
+        })
+      },
+    },
+  };
+</script>
